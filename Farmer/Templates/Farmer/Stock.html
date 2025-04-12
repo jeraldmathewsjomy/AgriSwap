@@ -1,0 +1,177 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock</title>
+    <style>
+        body {
+            background-color: #e3f6e3; /* Light green background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .containers {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 60%;
+            margin: 20px auto;
+        }
+
+        h2 {
+            color: #2d852d;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        td, th {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .button {
+            background-color: #3b873e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #267326;
+        }
+
+        input[type="text"], input[type="submit"] {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #246b24;
+        }
+
+        @media screen and (max-width: 500px) {
+            body {
+                font-size: 0.9rem;
+            }
+
+            .containers {
+                width: 90%;  /* Increased width for better mobile view */
+                padding: 15px;
+                margin: 10px auto;
+            }
+
+            h2 {
+                font-size: 1.2rem;  /* Slightly smaller heading for mobile */
+            }
+
+            table {
+                display: block;
+                width: 100%;
+                margin-bottom: 20px;  /* Add space between tables */
+            }
+
+            td, th {
+                padding: 8px;
+                border: 1px solid #ddd;
+                font-size: 0.9rem;
+                text-align: left;  /* Align text to left for better readability on small screens */
+            }
+
+            .button {
+                width: 100%;  /* Button will take full width for mobile */
+                background-color: #3b873e;
+                color: white;
+                padding: 12px;
+                text-align: center;
+                font-weight: 600;
+                font-size: 1rem;
+                margin-top: 10px;
+                text-decoration: none;
+            }
+
+            input[type="text"], input[type="submit"] {
+                width: 100%;  /* Inputs will take full width on mobile */
+                font-size: 1rem;
+            }
+
+            input[type="submit"] {
+                padding: 12px;  /* Ensure submit button is not too large */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        
+        <div class="containers">
+            <h2>Stock</h2>
+            <table border="2">
+                <tr>
+                    <td>Stock</td>
+                    <td><input type="text" name="stock" id="stock" value="{{st.farmerproduct_stock}}" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Add">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="containers">
+            <h2>Stock Records</h2>
+            <table border="2">
+                <tr>
+                    <th>SL NO</th>
+                    <th>Stock</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for i in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.farmerproduct_stock }}</td>
+                    <td>{{ i.farmerproduct_date }}</td>
+                    <td><a href="{% url 'Farmer:editstock' i.id %}" class="button">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </form>
+
+</body>
+</html>
+{% endblock content %}

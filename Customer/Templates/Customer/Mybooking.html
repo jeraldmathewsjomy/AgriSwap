@@ -1,0 +1,161 @@
+{% extends 'Customer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY BOOKING</title>
+    <style>
+        body {
+            background-color: #e3f6e3; /* Light green background */
+            font-family: Arial, sans-serif;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            text-align: center;
+            justify-content: center;
+            transform: translate(75%, 50%);
+        }
+        h2 {
+            color: #2d852d;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+            padding: 10px;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #246b24;
+        }
+        table {
+    width: 100%;
+    border-collapse: collapse; /* Merge borders to remove outer border */
+}
+
+td, th {
+    padding: 10px;
+    border: 1px solid #ddd; /* Light inner border */
+}
+
+@media screen and (max-width: 500px) {
+    body {
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9rem;
+        padding: 10px;
+        background-color: #e3f6e3;
+    }
+
+    .form-container {
+        width: 100%;
+        padding: 15px;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        text-align: center;
+        margin: 0 auto;
+        transform: none; /* Removes PC alignment issue */
+        margin-top:30px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        display: block;
+        overflow-x: auto; /* Allows scrolling on small screens */
+        white-space: nowrap;
+    }
+
+    td, th {
+        padding: 8px;
+        border: 1px solid #ddd;
+        font-size: 0.9rem;
+    }
+
+    th {
+        background: #2d852d;
+        color: white;
+        font-size: 1rem;
+    }
+
+    a {
+        display: block;
+        color: green;
+        text-decoration: none;
+        padding: 8px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    a:hover {
+        background: #246b24;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="form-container">
+    <table cellpadding="10" align="center">
+        <tr>
+            <th>SL NO</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        {% for i in book %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.booking_amount}}</td>
+            <td>{{i.booking_date}}</td>
+            <td>
+                {% if i.booking_status == 2 %}
+                <a href="{% url 'Customer:myproducts' i.id %}">View Products</a>
+                {% else %}
+                <a href="{% url 'Customer:reproductpayment' i.id %}">Payment</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

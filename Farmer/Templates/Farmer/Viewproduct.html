@@ -1,0 +1,244 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Products</title>
+    <style>
+
+        @media screen and (min-width: 500px) {
+        body {
+            background-color: #e3f6e3; /* Light green background */
+            font-family: Arial, sans-serif;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            /* max-width: 600px; */
+            width: 80%;
+            text-align: center;
+            margin-left: 150px;
+            justify-content: center;
+            /* transform: translate(10%, 0%); */
+        }
+        h2 {
+            color: #2d852d;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+            padding: 10px;
+        }
+        .button
+        {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+            position:center;
+
+        }
+        button:hover{
+            transform: scale(1.04); /* Slight zoom effect on hover */
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #246b24;
+        }
+        table {
+    width: 100%;
+    border-collapse: collapse; /* Merge borders to remove outer border */
+}
+
+td, th {
+    padding: 10px;
+    border: 1px solid #ddd; /* Light inner border */
+}
+.img {
+    border: 3px solid #3b3b3b;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    transition: transform 0.3s ease-in-out;
+}
+
+img:hover {
+    transform: scale(1.04); /* Slight zoom effect on hover */
+}
+        }
+
+        /* Mobile View (below 400px) */
+@media screen and (max-width: 500px) {
+    body {
+        font-family: 'Poppins', sans-serif; /* Clean, modern font */
+        font-size: 0.9rem;
+        padding: 10px;
+        background-color: #e3f6e3;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 10px;
+        background: none;
+        box-shadow: none;
+    }
+
+    /* Convert Table Rows into Individual Product Cards */
+    .form-container table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .form-container tr {
+        display: flex;
+        flex-direction: column;
+        background: white;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: left;
+    }
+
+    .form-container tr:first-child {
+        display: none; /* Hide the table headers */
+    }
+
+    .form-container td {
+        display: flex;
+        flex-direction: column;
+        padding: 8px 0;
+        border: none;
+    }
+
+    /* Remove Serial Number Column (SI) */
+    .form-container td:nth-child(1) {
+        display: none;
+    }
+
+    /* Modify Product Name */
+    .form-container td:nth-child(2)::before {
+        content: ""; /* Remove the "Product Name:" label */
+    }
+
+    .form-container td:nth-child(2) {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #2d852d;
+        text-transform: capitalize;
+    }
+
+    /* Image */
+    .form-container td:nth-child(3) {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .form-container td:nth-child(3) img {
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+        border-radius: 10px;
+        border: 3px solid #3b3b3b;
+        align-self: center;
+    }
+
+    /* Action Button */
+    .form-container td:nth-child(4) {
+        text-align: center;
+    }
+
+    .form-container .button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #2d852d;
+        color: white;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .form-container .button:hover {
+        transform: scale(1.04);
+    }
+
+    /* Ensure Frequent Requested Products Table is also responsive */
+    .form-container table {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <br>
+        <br>
+        <br>
+        <div class="form-container">
+ 
+
+    <table border="2" align="center" class="table">
+        <tr>
+            <td>SI</td>
+            <td>Name</td>
+            <td>Image</td>
+            <td>Action</td>
+        </tr>
+
+        {% for i in product %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.product_name}}</td>
+
+            <td align="center"><img src="{{i.product_image.url}}" width="150" height="150" class="img"></td>
+            <td><a href="{% url 'Farmer:stock' i.id  %}" class="button">Add Stock</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+    </form>
+
+</body>
+</html>
+{% endblock content %}

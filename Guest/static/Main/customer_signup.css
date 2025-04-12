@@ -1,0 +1,198 @@
+
+
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #d4f3c0, #f0fff0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container */
+.container {
+    display: flex;
+    width: 1300px; /* Increased width */
+    height: 600px; /* Increased height */
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Left Panel */
+.left-panel {
+    flex: 1;
+    background: #d8f4c8;
+    padding: 30px; /* Adjusted padding for more spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.left-panel i {
+    font-size: 5rem; /* Increased icon size */
+    color: #4caf50;
+    margin-bottom: 15px;
+}
+
+.left-panel h2 {
+    font-size: 2.5rem; /* Heading size */
+    color: #4caf50;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px; /* Increased spacing between buttons */
+}
+
+.btn-toggle {
+    background: #fff;
+    border: 2px solid #4caf50;
+    color: #4caf50;
+    padding: 10px 20px; /* Adjusted padding for buttons */
+    border-radius: 7px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+    font-size: 1rem;
+}
+
+.btn-toggle:hover {
+    background: #4caf50;
+    color: #fff;
+}
+
+/* Right Panel */
+.right-panel {
+    flex: 2;
+    padding: 60px ; /* Adjusted padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-panel h2 {
+    font-size: 1.5rem; /* Slightly smaller heading */
+    color: #4caf50;
+    margin-bottom: 30px;
+    text-align: center;
+    margin-right: 190px;
+}
+
+/* Form Styling */
+form {
+    display: block; /* Changed to block layout */
+    margin: 0 ; /* Centered form within the pane */
+    max-width: 75%; /* Adjust maximum form width */
+}
+
+/* Form Group Styling */
+.form-group {
+    width: 100%; /* Full width for single column layout */
+    margin-bottom: 15px; /* Space below each form group */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center content horizontally */
+}
+
+/* Label Styling */
+.form-group label {
+    margin-bottom: 6px; /* Spacing between label and input */
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #333;
+    display: block; /* Ensure label occupies a full line */
+    
+}
+
+/* Styling for input and select */
+form input,
+form select {
+    width: 100%; /* Full width within form group */
+    padding: 10px; /* Adjust padding */
+    border: 2px solid #4caf50; /* Border color */
+    border-radius: 7px; /* Rounded corners */
+    font-size: 0.9rem; /* Font size */
+    background: #fff; /* Background color */
+    outline: none; /* Remove outline */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transition for focus */
+    margin-left: 80px;
+}
+
+/* Focus State for input and select */
+form input:focus,
+form select:focus {
+    border-color: #3b873e; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(59, 135, 62, 0.5); /* Add shadow on focus */
+}
+
+
+
+
+/* File Input Styling */
+input[type="file"] {
+    padding: 8px; /* Reduced padding for file input */
+    font-size: 0.9rem; /* Reduced font size */
+    cursor: pointer;
+    background: #f8fff8;
+    border-radius: 5px;
+}
+
+/* Hover State for file input */
+input[type="file"]:hover {
+    background: #f0fff0;
+    border-color: #3b873e;
+}
+
+/* Submit Button Styling */
+
+/* Submit Button Styling */
+form .btn {
+    padding: 12px 20px; /* Adjusted button size */
+    background: #4caf50; /* Button background color */
+    color: white; /* Text color */
+    font-size: 16px; /* Increased button text size */
+    border: none; /* No border */
+    border-radius: 7px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    transition: background 0.3s ease; /* Transition for hover effect */
+    width: auto; /* Adjust width to auto for centering */
+}
+
+/* Hover State for button */
+form .btn:hover {
+    background: #3b873e; /* Change background on hover */
+}
+
+.form-group .btn-container {
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center the button */
+    width: 100%; /* Full width for container */
+}
+
+/* Hover State for button */
+form .btn:hover {
+    background: #3b873e; /* Change background on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-panel {
+        padding: 20px;
+    }
+
+    .right-panel {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,207 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Plant Disease</title>
+    <style>
+        /* General Styles */
+        /* General Styles */
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #b8f1b8, #98e6a3);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Main Container */
+        .main-content {
+            flex: 1; /* Pushes the footer down */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .containeri {
+            background: white;
+            padding: 25px 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            transform: translate(100%, 20%);
+                }
+        
+        /* Footer */
+        .footer {
+            background: black;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        
+        
+        /* Heading */
+        h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        /* Features Section */
+        .features-section {
+            margin-bottom: 20px;
+        }
+        
+        /* Feature Headings */
+        .feature h3 {
+            font-size: 18px;
+            color: #1d3557;
+            margin-bottom: 5px;
+        }
+        
+        /* Feature Description */
+        .feature p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        /* File Input Styling */
+        input[type="file"] {
+            padding: 10px;
+            border: 2px dashed #28a745;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #ecf6ff;
+            display: block;
+            margin: 0 auto 15px auto;
+            text-align: center;
+            cursor: pointer;
+            transition: border 0.3s ease-in-out;
+        }
+        
+        input[type="file"]:hover {
+            border-color: #28a745;
+        }
+        
+        /* Button Styling */
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color:rgb(21, 217, 67);
+            transform: scale(1.03);
+        }
+        
+        /* Image Preview */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            display: none;
+        }
+        
+        /* Prediction Output */
+        h2 {
+            font-size: 20px;
+            color: #28a745;
+            margin-top: 15px;
+        }
+        
+        p {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 500px) {
+            body {
+                height: auto;
+                
+            }
+            
+            .containeri {
+                width: 95%;
+                padding: 20px;
+                transform: translate(3%, 20%);
+            }
+        
+            h1 {
+                font-size: 20px;
+            }
+        
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="containeri">
+        <h1>Predict Plant Disease</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <section class="features-section">
+                <div class="feature">
+                    <h3>Upload a Plant Leaf Image</h3>
+                    <p>Select a clear image of a leaf to preview it before processing:</p>
+                    <input type="file" name="image" id="imageInput" accept="image/*">
+                    <img id="imagePreview" src="#" alt="Preview" style="display: none;">
+                </div>
+            </section>
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction %}
+            <h2>Prediction: {{ prediction }}</h2>
+        {% endif %}
+        {% if confidence %}
+            <p>Confidence: {{ confidence }}</p>
+        {% endif %}
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+    </div>
+    <script>
+        // JavaScript to preview image
+        document.getElementById('imageInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block'; // Show the image
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
+
+{% endblock content %}

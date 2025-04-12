@@ -1,0 +1,61 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swap Products</title>
+</head>
+<body>
+    <h1>Product Swap</h1>
+
+    <!-- Display current products in farmer's stock -->
+    <h3>Your Current Stock</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Stock Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in current_stock %}
+                <tr>
+                    <td>{{ item.product.product_name }}</td>
+                    <td>{{ item.farmerproduct_stock }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Display suggested products based on association rules -->
+    <h3>Suggested Products to Swap With</h3>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <label for="selected_product">Select a product to swap:</label>
+        <select name="selected_product" id="selected_product">
+            {% for rule in rules %}
+                <option value="{{ rule.id }}">
+                    {{ rule.consequents }}
+                </option>
+            {% empty %}
+                <option>No matching products available for swap.</option>
+            {% endfor %}
+        </select>
+
+        <label for="swap_quantity">Enter the quantity to swap:</label>
+        <input type="number" name="swap_quantity" id="swap_quantity" min="1" required>
+
+        <button type="submit">Swap</button>
+    </form>
+
+    <!-- Display a message if no association rules exist -->
+    {% if not rules %}
+        <p>No product suggestions available at the moment.</p>
+    {% endif %}
+</body>
+</html>
+
+{% endblock content %}

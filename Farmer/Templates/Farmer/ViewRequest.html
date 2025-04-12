@@ -1,0 +1,217 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Request</title>
+    <style>
+
+        /* Mobile View (Below 500px) */
+@media screen and (max-width: 500px) {
+    .xcontainer {
+        padding: 10px;
+    }
+
+    /* Table Responsiveness */
+    table {
+        width: 100%;
+        display: block;
+        overflow-x: auto; /* Make the table scrollable if it exceeds width */
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .button {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+
+    /* Ensure table cells do not collapse when the screen is small */
+    th, td {
+        min-width: 150px; /* Set a minimum width for columns */
+    }
+}
+
+        body {
+            background-color: #e3f6e3; /* Light green background */
+            font-family: Arial, sans-serif;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .xcontainer {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            /* max-width: 90%; */
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+            /* transform: translate(100%, 0%); */
+        }
+        .container2 {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            width: 30%;
+            text-align: center;
+            justify-content: center;
+            /* transform: translate(205%, -1200%); */
+        }
+        h2 {
+            color: #2d852d;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+            padding: 10px;
+        }
+        .button
+        {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+            padding: 5px;
+        }
+        button:hover{
+            transform: scale(1.04); /* Slight zoom effect on hover */
+            
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #246b24;
+        }
+        table {
+    width: 100%;
+    border-collapse: collapse; /* Merge borders to remove outer border */
+}
+
+td, th {
+    padding: 10px;
+    border: 1px solid #ddd; /* Light inner border */
+}
+.img {
+    border: 3px solid #3b3b3b;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    transition: transform 0.3s ease-in-out;
+}
+
+img:hover {
+    transform: scale(1.04); /* Slight zoom effect on hover */
+}
+    </style>
+</head>
+<body>
+    <br>
+    <br>
+    <br>
+    <div class="xcontainer">
+    <table border="1" align="center">
+        <tr>
+            <th>Request Date</th>
+            <th>Request Quantity</th>
+            <th>Requesting Farmer</th>
+            <th>Requesting Product</th>
+            <th>Send Request Product</th>
+            <th>Send Request Quantity</th>
+            <th>Action</th>
+        </tr>
+        {% for request in requests %}
+        <tr>
+            <td>{{ request.request_date }}</td>
+            <td>{{ request.send_qty }}</td>
+            <td>{{ request.send_farmer.farmer_name }}</td>
+            <td>{{ request.send_product.product_name }}</td>
+            <td>
+                {% if request.receive_product == null %}
+                <span style="color: red;">N/A</span>
+                {% else %}
+                {{request.receive_product.product_name}}
+                {% endif %}
+            </td>
+            <td>
+                {% if request.receive_qty == "" %}
+                <span style="color: red;">N/A</span>
+                {% else %}
+                {{request.receive_qty}}
+                {% endif %}
+            </td>
+            <td>
+                {% if request.request_status == 0 %}
+                <a href="{% url 'Farmer:otherproducts' request.id %}" class="button">Accept</a>
+                <a href="{% url 'Farmer:rejectrequest' request.id %}" class="button">Reject</a>
+                {% elif request.request_status == 1 %}
+                Accepted | <a href="{% url 'Farmer:requestPayment' request.id %}" class="button">Payment</a>
+                {% elif request.request_status == 2 %}
+                Rejected
+                {% elif request.request_status == 3 %}
+                    {% if request.farmer_payment.id == farmerid %}
+                    <span style="color: green;">You Payed</span>
+                    {% else %}
+                    <span style="color: red;">You Not Payed</span> | <a href="{% url 'Farmer:requestPayment' request.id %}" class="button">Payment</a>
+                    {% endif %}
+                {% elif request.request_status == 4 %}
+                <span style="color: green;">Both Payed</span>
+                {% else %}
+                In Progress
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+    {% if msg %}
+    <script>
+        alert("{{ msg }}");
+        window.location = "{% url 'Farmer:viewrequest' %}"; 
+    </script>
+    {% endif %}
+</body>
+</html>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

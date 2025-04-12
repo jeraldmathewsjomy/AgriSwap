@@ -1,0 +1,173 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Price</title>
+    <style>
+        body {
+            background-color: #e3f6e3; /* Light green background */
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+            transform: translate(70%, 30%);
+        }
+
+        h2 {
+            color: #2d852d;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        .button {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.04); /* Slight zoom effect on hover */
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #246b24;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Merge borders to remove outer border */
+        }
+
+        td, th {
+            padding: 10px;
+            border: 1px solid #ddd; /* Light inner border */
+        }
+
+        .img {
+            border: 3px solid #3b3b3b;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        img:hover {
+            transform: scale(1.04); /* Slight zoom effect on hover */
+        }
+
+        /* Mobile View*/
+        @media screen and (max-width: 500px) {
+            body {
+                font-size: 0.9rem;  /* Adjust font size */
+                
+            }
+
+            .form-container {
+                width: 90%;
+                padding: 20px;
+                transform: translate(0%, 0%); /* Remove translation */
+                margin: 0 5px; /* Add some margin */
+                margin-top:20px;
+                margin-left:20px;
+            }
+
+            h2 {
+                font-size: 1.2rem;  /* Adjust font size for small screens */
+            }
+
+            table {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            td, th {
+                padding: 8px;
+                font-size: 0.9rem;
+                text-align: left; /* Align text to left for better readability */
+            }
+
+            input[type="text"] {
+                width: 100%; /* Ensure text input takes full width */
+                padding: 10px;
+                font-size: 1rem;  /* Adjust input font size */
+            }
+
+            input[type="submit"] {
+                width: 100%;  /* Ensure button takes full width */
+                padding: 12px; /* Increase padding */
+                font-size: 1rem;  /* Increase font size */
+            }
+
+            .button {
+                padding: 10px 20px;  /* Reduced padding */
+                width: 100%;  /* Ensure button takes full width */
+                font-size: 1rem; /* Adjust button font size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-container">
+            <table>
+                <tr>
+                    <td>CUSTOMER PRICE</td>
+                    <td><input type="text" name="price" id=""></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><input type="submit" value="ADD"></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>
+{% endblock content %}

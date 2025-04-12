@@ -1,0 +1,54 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Swap Suggestions</title>
+    <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th, td {
+            padding: 10px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Product Swap Suggestions</h1>
+    <h3 style="text-align: center;">Your Current Products: {{ farmer_products|join:", " }}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Products You Have</th>
+                <th>Products You Can Swap For</th>
+                <th>Confidence</th>
+                <th>Lift</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rule in rules %}
+            <tr>
+                <td>{{ rule.antecedents }}</td>
+                <td>{{ rule.consequents }}</td>
+                <td>{{ rule.confidence|floatformat:2 }}</td>
+                <td>{{ rule.lift|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No swap suggestions available at the moment.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+{% endblock content %}

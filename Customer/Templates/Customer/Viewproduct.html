@@ -1,0 +1,274 @@
+{% extends 'Customer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIEW PRODUCTS</title>
+    <style>
+
+        .search-container {
+            text-align: center;
+            margin: 20px auto; /* Adds margin on top */
+        }
+    
+        .search-container input {
+            width: 50%;
+            padding: 12px;
+            border: 2px solid #2d852d; /* Thin green border */
+            border-radius: 25px; /* Fully rounded edges */
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            text-align: center;
+        }
+    
+        .search-container input:focus {
+            border-color: #246b24; /* Darker green on focus */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
+            transform: scale(1.02); /* Slight expansion */
+        }
+
+        @media screen and (max-width: 500px) {
+            body {
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.9rem;
+                padding: 10px;
+                background-color: #e3f6e3;
+            }
+
+            .form-container {
+                width: 100%;
+                padding: 10px;
+                background: none;
+                box-shadow: none;
+            }
+
+            /* Search Bar */
+            .search-container input {
+                width: 90%; /* Adjusts width for smaller screens */
+            }
+
+            /* Convert Table Rows into Individual Product Cards */
+            .form-container table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+            }
+
+            .form-container tr {
+                display: flex;
+                flex-direction: column;
+                background: white;
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                text-align: left;
+            }
+
+            .form-container tr:first-child {
+                display: none;
+            }
+
+            .form-container td {
+                display: flex;
+                flex-direction: column;
+                padding: 8px 0;
+                border: none;
+            }
+
+            .form-container td:nth-child(1) {
+                display: none;
+            }
+
+            .form-container td:nth-child(2) {
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #2d852d;
+                text-transform: capitalize;
+            }
+
+            .form-container td:nth-child(3) {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            .form-container td:nth-child(3) img {
+                width: 100%;
+                max-width: 250px;
+                height: auto;
+                border-radius: 10px;
+                border: 3px solid #3b3b3b;
+                align-self: center;
+            }
+
+            .form-container td:nth-child(4)::before {
+                content: "Price: ";
+                font-weight: bold;
+                color: #333;
+            }
+
+            .form-container td:nth-child(5)::before {
+                content: "Farmer: ";
+                font-weight: bold;
+                color: #333;
+            }
+
+            .form-container td:nth-child(6) {
+                text-align: center;
+            }
+
+            .form-container .button {
+                width: 100%;
+                font-size: 1rem;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: #2d852d;
+                color: white;
+                text-decoration: none;
+                text-align: center;
+                display: block;
+                margin-top: 10px;
+                font-weight: bold;
+            }
+
+            .form-container .button:hover {
+                transform: scale(1.04);
+            }
+            .search-container input {
+                width: 90%; /* Adjusts width for smaller screens */
+            }
+        }
+        @media screen and (min-width: 500px) {
+                body {
+                    background-color: #e3f6e3;
+                    font-family: Arial, sans-serif;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    margin: 0;
+                }
+
+                .form-container {
+                    background: white;
+                    padding: 20px;
+                    border-radius: 15px;
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                    max-width: 1300px;
+                    width: 250%;
+                    text-align: center;
+                    justify-content: center;
+                    transform: translate(8%, 1%);
+                }
+
+
+                h2 {
+                    color: #2d852d;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                td, th {
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                }
+
+                input[type="text"] {
+                    width: 90%;
+                    padding: 8px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
+
+                input[type="submit"] {
+                    background-color: #2d852d;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    width: 100%;
+                }
+
+                input[type="submit"]:hover {
+                    background-color: #246b24;
+                }
+
+                .img {
+                    border: 3px solid #3b3b3b;
+                    border-radius: 15px;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                    transition: transform 0.3s ease-in-out;
+                }
+
+                img:hover {
+                    transform: scale(1.04);
+                }
+
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search for products..." onkeyup="searchProducts()">
+</div>
+
+<div class="form-container">
+    <form action="" method="post">
+        {% csrf_token %}
+        <table align="center" id="productTable">
+            <tr>
+                <th>Sl NO</th>
+                <th>Product Name</th>
+                <th>Photo</th>
+                <th>Price</th>
+                <th>Farmer Name</th>
+                <th>Action</th>
+            </tr>
+            {% for i in product %}
+            <tr class="product-row">
+                <td>{{forloop.counter}}</td>
+                <td class="product-name">{{i.product.product_name}}</td>
+                <td align="center"><img src="{{i.product.product_image.url}}" width="150" height="150" class="img"></td>
+                <td>{{i.farmerproduct_price}}</td>
+                <td>{{i.farmer.farmer_name}}</td>
+                <td><a href="{% url 'Customer:Addcart' i.id %}">Add to Cart</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</div>
+
+<script>
+    function searchProducts() {
+        let input = document.getElementById("searchInput").value.toLowerCase();
+        let rows = document.querySelectorAll(".product-row");
+
+        rows.forEach(row => {
+            let productName = row.querySelector(".product-name").textContent.toLowerCase();
+            if (productName.includes(input)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+</script>
+
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'Customer:Viewproduct' %}"
+</script>
+{% endif %}
+
+</body>
+</html>
+{% endblock content %}

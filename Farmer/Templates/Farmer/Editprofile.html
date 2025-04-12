@@ -1,0 +1,399 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}  
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #b8f1b8, #98e6a3);
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .profile-container {
+            display: flex;
+            max-width: 1000px;
+            width: 90%;
+            min-height: 500px;
+            background: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            text-align: center;
+            justify-content: center;
+            transform: translate(27%, 5%);
+        }
+        .profile-picture {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #d1f7d6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .edit-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: #3b873e;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .edit-icon i {
+            font-size: 20px;
+        }
+
+        .edit-icon:hover {
+            background: #267326;
+        }
+
+        .edit-icon input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+        }
+
+        .profile-details {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .profile-header {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #3b873e;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .profile-form {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .profile-form label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #3b873e;
+        }
+
+        .profile-form input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .profile-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .profile-actions input[type="submit"] {
+            color: white;
+            background-color: #3b873e;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .profile-actions input[type="submit"]:hover {
+            background-color: #267326;
+        }
+
+        /* Dialog box styling */
+        .dialog-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 1000;
+            width: 400px;
+        }
+
+        .dialog-box p {
+            color: #3b873e;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .dialog-box button {
+            background-color: #3b873e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .dialog-box button:hover {
+            background-color: #267326;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 10px;
+            }
+        
+            .profile-container {
+                flex-direction: column;
+                margin-top:10px;
+                width: 100%;
+                max-width: 360px;
+                transform: none;
+                padding: 15px;
+            }
+        
+            .profile-picture {
+                width: 100%;
+                height: 180px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        
+            .profile-picture img {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid #3b873e;
+            }
+        
+            .profile-details {
+                padding: 15px;
+                text-align: center;
+            }
+        
+            .profile-header {
+                font-size: 1.4rem;
+                font-weight: 600;
+            }
+        
+            .profile-form {
+                max-width: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+        
+            .profile-form label {
+                font-size: 0.9rem;
+                font-weight: 500;
+                text-align: left;
+            }
+        
+            .profile-form input {
+                font-size: 1rem;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                width: 100%;
+            }
+        
+            .profile-actions {
+                margin-top: 15px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+            }
+        
+            .profile-actions input[type="submit"] {
+                width: 100%;
+                padding: 12px;
+                font-size: 1rem;
+                font-weight: 600;
+                background-color: #3b873e;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+        
+            .profile-actions input[type="submit"]:hover {
+                background-color: #267326;
+            }
+        
+            .edit-icon {
+                width: 35px;
+                height: 35px;
+                top: 5px;
+                right: 5px;
+                font-size: 16px;
+            }
+        
+            .dialog-box {
+                width: 90%;
+                max-width: 320px;
+                padding: 15px;
+            }
+        
+            .dialog-box p {
+                font-size: 1rem;
+            }
+        
+            .dialog-box button {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+        }
+        
+    </style>
+</style>
+</head>
+<body>
+    <form id="profileForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="profile-container">
+            <div class="profile-picture">
+                <img id="profileImage" src="{{data.farmer_photo.url}}" alt="Profile Picture">
+                <div class="edit-icon">
+                    <i class="fas fa-pencil-alt"></i>
+                    <input type="file" name="profile_picture" id="profilePictureInput" onchange="uploadProfilePicture()">
+                </div>
+            </div>
+            <div class="profile-details">
+                <div class="profile-header">Edit Profile</div>
+                <div class="profile-form">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" value="{{data.farmer_name}}">
+
+                    <label for="mail">Email</label>
+                    <input type="email" id="mail" name="mail" value="{{data.farmer_email}}">
+
+                    <label for="contact">Contact</label>
+                    <input type="tel" id="contact" name="contact" value="{{data.farmer_contact}}">
+
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" value="{{data.farmer_address}}">
+                </div>
+                <div class="profile-actions">
+                    <input type="submit" name="sub" value="Submit" onclick="submitProfile(event)">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="overlay"></div>
+    <div class="dialog-box">
+        <p id="dialogMessage"></p>
+        <button onclick="closeDialog()">OK</button>
+    </div>
+
+    <script>
+        function uploadProfilePicture() {
+            const input = document.getElementById('profilePictureInput');
+            const formData = new FormData();
+            formData.append('profile_picture', input.files[0]);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            fetch("{% url 'Farmer:editprofile' %}", {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('profileImage').src = data.new_photo_url;
+                    showDialog('Profile Picture Updated');
+                }
+            });
+        }
+
+        function submitProfile(event) {
+            event.preventDefault(); // Prevent the default form submission
+            const formData = new FormData(document.getElementById('profileForm'));
+            fetch("{% url 'Farmer:editprofile' %}", {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showDialog(data.message);
+                    setTimeout(function() {
+                        window.location.href = "{% url 'Farmer:myprofile' %}";
+                    }, 2000); // Redirect to MyProfile after 2 seconds
+                }
+            });
+        }
+
+        function showDialog(message) {
+            document.getElementById('dialogMessage').innerText = message;
+            document.querySelector('.overlay').style.display = 'block';
+            document.querySelector('.dialog-box').style.display = 'block';
+        }
+
+        function closeDialog() {
+            document.querySelector('.overlay').style.display = 'none';
+            document.querySelector('.dialog-box').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+{% endblock content %}

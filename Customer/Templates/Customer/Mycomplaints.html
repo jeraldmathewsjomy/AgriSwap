@@ -1,0 +1,180 @@
+{% extends 'Customer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMPLAINT</title>
+    <style>
+
+        @media screen and (max-width: 500px) {
+            .form-container {
+                width: 90%; /* Adjust width to fit within screen */
+                max-width: 300px;
+                padding: 15px;
+                background: white;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                border-radius: 15px;
+                text-align: center;
+                margin: 20px auto; /* Center the box */
+                position: relative;
+                transform: none; /* Remove unnecessary shifting */
+            }
+        
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                display: block;
+                overflow-x: auto; /* Allows horizontal scrolling if needed */
+                white-space: nowrap;
+            }
+        
+            td, th {
+                padding: 8px;
+                border: 1px solid #ddd;
+                text-align: center;
+                font-size: 0.9rem;
+            }
+        
+            tr {
+                background: white;
+                padding: 10px;
+                margin-bottom: 5px;
+                border-radius: 10px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            }
+        
+            td {
+                text-align: left;
+                padding: 5px;
+            }
+        
+            td a {
+                display: inline-block;
+                padding: 8px 12px;
+                background-color: #d9534f;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+                font-size: 0.9rem;
+            }
+        
+            td a:hover {
+                background-color: #c9302c;
+            }
+        }
+        @media screen and (min-width: 500px) {
+
+            .form-container {
+                background: white;
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                max-width: 600px;
+                width: 100%;
+                text-align: center;
+                text-align: center;
+                justify-content: center;
+                transform: translate(75%, 50%);
+            }
+
+        }
+        
+        body {
+            background-color: #e3f6e3; /* Light green background */
+            font-family: Arial, sans-serif;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h2 {
+            color: #2d852d;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+            padding: 10px;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #246b24;
+        }
+        table {
+    width: 100%;
+    border-collapse: collapse; /* Merge borders to remove outer border */
+}
+
+td, th {
+    padding: 10px;
+    border: 1px solid #ddd; /* Light inner border */
+}
+        
+    </style>
+</head>
+<body>
+    <div class="form-container">
+    <form action="" method="post">
+        {% csrf_token %}
+        <table border="2" align="center">
+            <tr>
+                <td>SL NO</td>
+                <td>Title</td>
+                <td>Content</td>
+                <td>Date</td>
+                
+                <td>Action</td>
+                
+            </tr>
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.complaint_title}}</td>
+                <td>{{i.complaint_content}}</td>
+                <td>{{i.complaint_date}}</td>
+                
+                <td><a href="{% url 'Customer:delcomp' i.id %}">Remove</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</div>
+</body>
+</html>
+{%if msg%}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Customer:mycomplaints' %}"
+</script>
+{% endif %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

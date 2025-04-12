@@ -1,0 +1,378 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange</title>
+    <style>
+
+        @media screen and (min-width: 400px) {
+            body {
+                background-color: #e3f6e3; /* Light green background */
+                font-family: Arial, sans-serif;
+                /* display: flex; */
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .xcontainer {
+                background: white;
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                /* max-width: 100px; */
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+                /* transform: translate(100%, 0%); */
+            }
+            .container2 {
+                background: white;
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                max-width: 700px;
+                width: 30%;
+                text-align: center;
+                justify-content: center;
+                transform: translate(205%, -1200%);
+            }
+            h2 {
+                color: #2d852d;
+            }
+            table {
+                width: 100%;
+            }
+            td {
+                padding: 10px;
+            }
+            .button
+            {
+                width: 90%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #2d852d;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 100%;
+                text-decoration: none;
+                transition: transform 0.3s ease-in-out;
+            }
+            button:hover{
+                transform: scale(1.04); /* Slight zoom effect on hover */
+            }
+            input[type="text"] {
+                width: 90%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            input[type="submit"] {
+                background-color: #2d852d;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 100%;
+            }
+            input[type="submit"]:hover {
+                background-color: #246b24;
+            }
+            table {
+        width: 100%;
+        border-collapse: collapse; /* Merge borders to remove outer border */
+    }
+
+    td, th {
+        padding: 10px;
+        border: 1px solid #ddd; /* Light inner border */
+    }
+    .img {
+        border: 3px solid #3b3b3b;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+        transition: transform 0.3s ease-in-out;
+    }
+
+    img:hover {
+        transform: scale(1.04); /* Slight zoom effect on hover */
+    }
+
+        }
+
+
+
+        /* Mobile View */
+        @media screen and (max-width: 500px) {
+            body {
+                font-family: 'Poppins', sans-serif; /* Clean, modern font */
+                font-size: 0.9rem;
+                padding: 10px;
+                background-color: #e3f6e3;
+            }
+        
+            .xcontainer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                padding: 10px;
+                background: none;
+                box-shadow: none;
+            }
+        
+            /* Convert Table Rows into Individual Product Cards */
+            .xcontainer table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+            }
+        
+            .xcontainer tr {
+                display: flex;
+                flex-direction: column;
+                background: white;
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                text-align: left;
+            }
+        
+            .xcontainer tr:first-child {
+                display: none; /* Hide the table headers */
+            }
+        
+            .xcontainer td {
+                display: flex;
+                flex-direction: column;
+                padding: 8px 0;
+                border: none;
+            }
+        
+            /* Remove Serial Number Column (SI) */
+            .xcontainer td:nth-child(1) {
+                display: none;
+            }
+        
+            /* Modify Product Name */
+            .xcontainer td:nth-child(2)::before {
+                content: ""; /* Remove the "Product:" label */
+            }
+        
+            .xcontainer td:nth-child(2) {
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #2d852d;
+                text-transform: capitalize;
+            }
+        
+            /* Farmer Name */
+            .xcontainer td:nth-child(5)::before {
+                content: "Farmer: ";
+                font-weight: bold;
+                color: #444;
+            }
+        
+            /* Quantity */
+            .xcontainer td:nth-child(4)::before {
+                content: "Stock Quantity: ";
+                font-weight: bold;
+                color: #333;
+            }
+        
+            /* My District Price */
+            .xcontainer td:nth-child(7)::before {
+                content: "My District Price: ";
+                font-weight: bold;
+                color: #333;
+            }
+        
+            /* Other District Price */
+            .xcontainer td:nth-child(6)::before {
+                content: "Other District Price: ";
+                font-weight: bold;
+                color: #555;
+            }
+        
+            /* Send Quantity */
+            .xcontainer td:nth-child(8)::before {
+                content: "Send Quantity: ";
+                font-weight: bold;
+                color: #555;
+            }
+        
+            /* Price Styling */
+            .xcontainer td:nth-child(6), 
+            .xcontainer td:nth-child(7) {
+                font-size: 1rem;
+                font-weight: 500;
+                color: #555;
+            }
+        
+            /* Highlight price difference */
+            .xcontainer td:nth-child(7) {
+                font-weight: bold;
+            }
+        
+            /* Input field */
+            input[type="number"] {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+        
+            /* Image styling */
+            .xcontainer img {
+                width: 100%;
+                max-width: 250px;
+                height: auto;
+                border-radius: 10px;
+                border: 3px solid #3b3b3b;
+                align-self: center;
+            }
+        
+            .button {
+                width: 100%;
+                font-size: 1rem;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: #2d852d;
+                color: white;
+                text-decoration: none;
+                text-align: center;
+                display: block;
+                margin-top: 10px;
+                font-weight: bold;
+            }
+        
+            .button:hover {
+                transform: scale(1.04);
+            }
+        
+            /* Ensure frequent requested products table is also responsive */
+            .xcontainer table {
+                width: 100%;
+            }
+        }
+        
+        
+        
+    </style>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <br>
+        <br>
+    
+    <div class="xcontainer">
+    <table border="2" align="center" class="table">
+        <tr>
+            <td>SI</td>
+            <td>Name</td>          
+            <td>Image</td>
+            <td>Quantity</td>
+            <td>Farmer</td>
+            <td>There District Price</td>
+            <td>My District Price</td>
+            <td>Send Quantity</td>
+            <td>Action</td>
+        </tr>
+        
+        {% for i in product %}
+        
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.product.product_name}}</td>
+            <td align="center">
+           <img src="{{i.product.product_image.url}}" class="img" width="150" height="150">
+
+        </td>
+            <td>{{i.farmerproduct_stock}}</td>
+            <td>{{i.farmer.farmer_name}}</td>
+            {% if i.myprice > i.price  %}
+            <td><span>{{i.price}}</span></td>
+            <td><span style="color: green;">{{i.myprice}} +</span></td>
+            {% else %}
+            <td>{{i.price}}</td>
+            <td style="color: red;">{{i.myprice}} -</td>
+            {% endif %}
+            <td><input type="number" name="txt_qty" id="txt_qty{{forloop.counter}}" max="{{i.farmerproduct_stock}}" onchange="checkStock('{{i.farmerproduct_stock}}',this.value,'{{forloop.counter}}')"></td>
+            <td><a href="#" onclick="sendRequest('{{i.product.id}}','{{i.farmer.id}}','{{forloop.counter}}')" class="button">Send Request</a></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+   
+
+    <!-- <div class="contdainer2"> -->
+        <table border="1">
+            <tr>
+                <th>Frequent Requested Products</th>
+            </tr>
+            {% for i in data %}
+            <tr>
+    
+                <td>{{ i.product_name }}</td>  <!-- Display Product Name -->
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No frequent requests found.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+    </form>
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function sendRequest(pid,fid,no) {
+        var qty = document.getElementById("txt_qty"+no).value
+        // console.log("Product:",pid);
+        // console.log("Farmer:",fid);
+        // console.log("Quantity:",qty);
+        if(qty == ""){
+            window.alert("Please Enter A Quantity")
+        }
+        else
+        {
+            var ur = "{% url 'Farmer:ajaxsendrequest' %}"
+            $.ajax({
+                url: ur,
+                data: { pid: pid, qty: qty,fid: fid },
+                success: function (data) {
+                    // $("#selplace").html(data);
+                    // console.log(data.msg)
+                    window.alert(data.msg)
+                    window.location = "{% url 'Farmer:exchange' %}"
+                },
+            });
+        }
+    }
+
+    function checkStock(stock, qty, no){
+        // console.log("Stock",stock);
+        // console.log("Quantity",qty);
+        
+        if(parseInt(qty) > parseInt(stock))
+        {
+            document.getElementById("txt_qty"+no).value = stock
+        }
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,90 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+    </table>
+
+    <table border="2" align="center" class="table">
+        <tr>
+            <td>SI</td>
+            <td>Name</td>          
+            <td>Image</td>
+            <td>Quantity</td>
+            <td>Farmer</td>
+            <td>There District Price</td>
+            <td>My District Price</td>
+            <td>Send Quantity</td>
+            <td>Action</td>
+        </tr>
+
+        {% for i in product %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.product.product_name}}</td>
+
+            <td align="center"><img src="{{i.product.product_image.url}}" width="150" height="150"></td>
+            <td>{{i.farmerproduct_stock}}</td>
+            <td>{{i.farmer.farmer_name}}</td>
+            {% if i.myprice > i.price  %}
+            <td><span>{{i.price}}</span></td>
+            <td><span style="color: green;">{{i.myprice}} +</span></td>
+            {% else %}
+            <td>{{i.price}}</td>
+            <td style="color: red;">{{i.myprice}} -</td>
+            {% endif %}
+            <td><input type="number" name="txt_qty" id="txt_qty{{forloop.counter}}" max="{{i.farmerproduct_stock}}" onchange="checkStock('{{i.farmerproduct_stock}}',this.value,'{{forloop.counter}}')"></td>
+            <td><a href="#" onclick="sendRequest('{{i.product.id}}','{{i.farmer.id}}','{{forloop.counter}}')">Send Return Request</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="hidden" name="txt_request" id="txt_request" value="{{req}}">
+    </form>
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function sendRequest(pid,fid,no) {
+        var qty = document.getElementById("txt_qty"+no).value
+        var reqid = document.getElementById("txt_request").value
+        // console.log("Product:",pid);
+        // console.log("Farmer:",fid);
+        // console.log("Quantity:",qty);
+        if(qty == ""){
+            window.alert("Please Enter A Quantity")
+        }
+        else
+        {
+            var ur = "{% url 'Farmer:returnrequest' %}"
+            $.ajax({
+                url: ur,
+                data: { pid: pid, qty: qty,fid: fid,reqid: reqid },
+                success: function (data) {
+                    // $("#selplace").html(data);
+                    // console.log(data.msg)
+                    window.alert(data.msg)
+                    window.location = "{% url 'Farmer:dashboard' %}"
+                },
+            });
+        }
+    }
+
+    function checkStock(stock, qty, no){
+        // console.log("Stock",stock);
+        // console.log("Quantity",qty);
+        
+        if(parseInt(qty) > parseInt(stock))
+        {
+            document.getElementById("txt_qty"+no).value = stock
+        }
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,174 @@
+{% extends 'Customer/Head.html' %}
+{% block content %}
+<br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaints</title>
+    <style>
+
+
+        @media screen and (max-width: 500px) {
+            body {
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.9rem;
+               
+                background-color: #e3f6e3;
+                justify-content: center;
+                align-items: center;
+            }
+        
+            .form-container {
+                width: 90%;
+                max-width: 400px;
+                padding: 20px;
+                background: white;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                border-radius: 15px;
+                text-align: center;
+                margin: 20px auto; /* Ensures it stays centered */
+                position: relative; /* Fixes alignment */
+                left: -50%; /* Removes any right-side shifting */
+                right: auto;
+                top:-20%;
+                transform: none; /* Removes unnecessary movement */
+            }
+        
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+        
+            td {
+                display: block;
+                width: 100%;
+                text-align: left;
+                padding: 8px;
+            }
+        
+            td label {
+                font-weight: bold;
+                color: #2d852d;
+            }
+        
+            input[type="text"] {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 1rem;
+                margin-top: 5px;
+            }
+        
+            input[type="submit"] {
+                background-color: #2d852d;
+                color: white;
+                border: none;
+                padding: 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 100%;
+                font-size: 1rem;
+                margin-top: 10px;
+                font-weight: bold;
+            }
+        
+            input[type="submit"]:hover {
+                background-color: #246b24;
+            }
+        }
+        
+        
+        body {
+            background-color: #e3f6e3; /* Light green background */
+            font-family: Arial, sans-serif;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            text-align: center;
+            justify-content: center;
+            transform: translate(50%, 50%);
+        }
+        h2 {
+            color: #2d852d;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+            padding: 10px;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #246b24;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Submit a Complaint</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td><label for="txt_title">Title</label></td>
+                    <td><input type="text" name="txt_title" id="txt_title" required placeholder="Enter Complaint Title"></td>
+                </tr>
+
+                <tr>
+                    <td><label for="txt_content">Content</label></td>
+                    <td><input type="text" name="txt_content" id="txt_content" requiredplaceholder="Enter Complaint content"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="sub" value="Submit">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</body>
+</html>
+
+<br>
+
+<br>
+<br>
+<br>
+{%if msg%}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Customer:complaint' %}"
+</script>
+{% endif %}
+{% endblock content %}

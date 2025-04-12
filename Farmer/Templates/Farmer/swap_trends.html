@@ -1,0 +1,25 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Swap Trends</title>
+    <style>
+        .dashboard-container {
+            text-align: center;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div><a href="">tftyf</a></div>
+    <div class="dashboard-container">
+        <h2>Swap Trends Dashboard</h2>
+        <!-- Load the pie chart from the swap_trends_view URL -->
+        <img src="{% url 'swap_trends_view' %}" alt="Swap Trends Pie Chart">
+    </div>
+    
+</body>
+</html>
+{% endblock content %}

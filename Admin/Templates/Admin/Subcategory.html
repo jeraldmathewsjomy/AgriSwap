@@ -1,0 +1,160 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        a {
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 0 5px;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .verify {
+            background-color: #28a745;
+            color: white;
+        }
+        .reject {
+            background-color: #dc3545;
+            color: white;
+        }
+        .verify:hover {
+            background-color: #218838;
+        }
+        .reject:hover {
+            background-color: #c82333;
+        }
+
+        /* Form Styles */
+        form {
+            width: 50%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="password"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="text"]:focus, input[type="password"]:focus, select:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5);
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table border="2" align="center">
+            <tr>
+                <td>Category</td>
+                <td><select name="sel_category" required>
+                <option>--Select Category--</option>
+                {% for i in cat %}
+                <option value="{{i.id}}">{{i.category_name}}</option>
+                {% endfor %}
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Subcategory</td>
+                <td><input type="text" name="subcate" required></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Submit"></td>
+            </tr>
+        </table>
+    </form>
+    <br>
+    <br>
+    
+
+        <table border="2" align="center">
+            <tr>
+                <td>SI</td>
+                <td>Category</td>
+                <td>Subcategory</td>
+                <td>Action</td>
+            
+            </tr>
+            {% for i in subcates %}
+            <tr>
+                <td>{{forloop.counter}}</td> 
+                <td>{{i.category.category_name}}</td> <!--foreignkey.field name-->
+                <td>{{i.subcategory_name}}</td> <!--value taken from models-->
+                <td><a href="{% url 'Admin:delsubcategory' i.id %}" class="reject">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    
+</body>
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location="{%  url 'Admin:subcategory' %}";  //Admin app name,admino function name frm models
+</script>
+{% endif %}
+{% endblock content %}

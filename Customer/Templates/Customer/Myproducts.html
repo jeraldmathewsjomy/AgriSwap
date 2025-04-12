@@ -1,0 +1,102 @@
+{% extends 'Customer/Head.html' %}
+{% block content %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY PRODUCTS</title>
+    <style>
+        body {
+            background-color: #e3f6e3; /* Light green background */
+            font-family: Arial, sans-serif;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            text-align: center;
+            justify-content: center;
+            transform: translate(113%, 50%);
+        }
+        h2 {
+            color: #2d852d;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+            padding: 10px;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #2d852d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #246b24;
+        }
+        table {
+    width: 100%;
+    border-collapse: collapse; /* Merge borders to remove outer border */
+}
+
+td, th {
+    padding: 10px;
+    border: 1px solid #ddd; /* Light inner border */
+}
+    </style>
+</head>
+<body>
+    <div class="form-container">
+    <table cellpadding="10" align="center">
+        <tr>
+            <th>SL NO</th>
+            <th>Photo</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        {% for i in cart %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td><img src="{{i.farmerproduct.product.product_image.url}}" width="100`" alt=""></td>
+            <td>{{i.farmerproduct.product.product_name}}</td>
+            <td>{{i.farmerproduct.farmerproduct_price}}</td>
+            <td>{{i.cart_qty}}</td>
+            <td>{{i.cart_qty|mul:i.farmerproduct.farmerproduct_price}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

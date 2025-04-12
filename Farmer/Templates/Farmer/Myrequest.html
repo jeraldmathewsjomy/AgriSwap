@@ -1,0 +1,173 @@
+{% extends 'Farmer/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Request</title>
+    <style>
+        /* General Styles for Body */
+        body {
+            background-color: #e3f6e3;
+            font-family: Arial, sans-serif;
+      
+            padding: 0;
+            height: auto;
+            
+        }
+        
+        /* Container for the Table */
+        .xcontainer {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+            overflow-x: auto; /* Allow horizontal scrolling if table overflows */
+        }
+        
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Merge borders to remove outer border */
+        }
+        
+        /* Table Header and Cells */
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+            white-space: nowrap; /* Prevent text from wrapping inside cells */
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        td {
+            text-align: center;
+        }
+        
+        /* Button Styling */
+        .button {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #2d852d;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .button:hover {
+            transform: scale(1.04);
+        }
+        
+        /* Mobile View (Below 600px) */
+        @media screen and (max-width: 600px) {
+            .xcontainer {
+                padding: 10px;
+            }
+        
+            /* Table Responsiveness */
+            table {
+                width: 100%;
+                display: block;
+                overflow-x: auto; /* Make the table scrollable if it exceeds width */
+            }
+        
+            th, td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+        
+            .button {
+                font-size: 0.8rem;
+                padding: 10px;
+            }
+        
+            /* Make sure table cells do not collapse when the screen is small */
+            th, td {
+                min-width: 150px; /* Set a minimum width for columns */
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="xcontainer">
+    <table border="1">
+        <tr>
+            <th>#</th>
+            <th>Request Date</th>
+            <th>Send Quantity</th>
+            <th>Receive Farmer</th>
+            <th>Send Product</th>
+            <th>Receive Product</th>
+            <th>Receive Quantity</th>
+            <th>Status</th>
+        </tr>
+        {% for request in requests %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ request.request_date }}</td>
+            <td>{{ request.send_qty }}</td>
+            <td>{{ request.receive_farmer.farmer_name }}</td>
+            <td>{{ request.send_product.product_name }}</td>
+            <td>
+                {% if request.receive_product == null %}
+                <span style="color: red;">N/A</span>
+                {% else %}
+                {{request.receive_product.product_name}}
+                {% endif %}
+            </td>
+            <td>
+                {% if request.receive_qty == "" %}
+                <span style="color: red;">N/A</span>
+                {% else %}
+                {{request.receive_qty}}
+                {% endif %}
+            </td>
+            <td align="center">
+                {% if request.request_status == 0 %}
+                Pending Request
+                {% elif request.request_status == 1 %}
+                Accepted  <a href="{% url 'Farmer:requestPayment' request.id %}" class="button">Payment</a>
+                {% elif request.request_status == 2 %}
+                Rejected
+                {% elif request.request_status == 3 %}
+                    {% if request.farmer_payment.id == farmerid %}
+                    <span style="color: green;">You Payed</span>
+                    {% else %}
+                    <span style="color: red;">You Not Payed</span>  <a href="{% url 'Farmer:requestPayment' request.id %}" class="button">Payment</a>
+                    {% endif %}
+                {% elif request.request_status == 4 %}
+                <span style="color: green;">Both Payed</span>
+                {% else %}
+                Completed
+                {% endif %}
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+   </div>
+</body>
+</html>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

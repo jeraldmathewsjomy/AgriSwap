@@ -1,0 +1,118 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Price</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        a {
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+        .verify {
+            background-color: #28a745;
+            color: white;
+        }
+        .reject {
+            background-color: #dc3545;
+            color: white;
+        }
+        .verify:hover {
+            background-color: #218838;
+        }
+        .reject:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+    <table border="2">
+        <tr>
+            <td>District</td>
+            <td><select name="sel_district">
+            <option>--Select District--</option>
+            {% for i in dis %}
+            <option value="{{i.id}}">{{i.district_name}}</option>
+            {% endfor %}
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td><input type="text" name="amount" id="" required></td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="center"><input type="submit" value="Add"></td>
+        </tr>
+    </table>
+    </form>
+
+    <br>
+    <br>                                                                                                                                                                 <table border="2">
+        <table border="2" align="center">
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>District</th>
+                <th>Product</th>
+                <th>Action</th>
+            </tr>
+            {% for i in prices %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.price_date }}</td>
+                <td>{{ i.price_amount }}</td>
+                <td>{{ i.district.district_name }}</td>
+                <td>{{ i.product.product_name }}</td>
+                <td><a href="{% url 'Admin:deleteprice' i.id %}?product_id={{ pro.id }}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+    {% if msg %}
+    <script>
+        alert("{{ msg }}");
+        window.location = "{% url 'Admin:addprice' pro.id %}";  
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}
